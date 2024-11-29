@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NDV_PetLoversClinic.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<NDV_PetLoversClinicContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("NDV_PetLoversClinicContext") ?? throw new InvalidOperationException("Connection string 'NDV_PetLoversClinicContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
