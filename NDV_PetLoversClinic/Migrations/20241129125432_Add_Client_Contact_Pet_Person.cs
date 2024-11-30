@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NDV_PetLoversClinic.Migrations
 {
     /// <inheritdoc />
-    public partial class Client_Contact_PetTbls : Migration
+    public partial class Add_Client_Contact_Pet_Person : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace NDV_PetLoversClinic.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Client",
+                name: "Clients",
                 columns: table => new
                 {
                     client_Id = table.Column<int>(type: "int", nullable: false)
@@ -43,9 +43,9 @@ namespace NDV_PetLoversClinic.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Client", x => x.client_Id);
+                    table.PrimaryKey("PK_Clients", x => x.client_Id);
                     table.ForeignKey(
-                        name: "FK_Client_Person_person_Id",
+                        name: "FK_Clients_Person_person_Id",
                         column: x => x.person_Id,
                         principalTable: "Person",
                         principalColumn: "person_Id",
@@ -90,16 +90,16 @@ namespace NDV_PetLoversClinic.Migrations
                 {
                     table.PrimaryKey("PK_Pet", x => x.pet_Id);
                     table.ForeignKey(
-                        name: "FK_Pet_Client_client_Id",
+                        name: "FK_Pet_Clients_client_Id",
                         column: x => x.client_Id,
-                        principalTable: "Client",
+                        principalTable: "Clients",
                         principalColumn: "client_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Client_person_Id",
-                table: "Client",
+                name: "IX_Clients_person_Id",
+                table: "Clients",
                 column: "person_Id");
 
             migrationBuilder.CreateIndex(
@@ -123,7 +123,7 @@ namespace NDV_PetLoversClinic.Migrations
                 name: "Pet");
 
             migrationBuilder.DropTable(
-                name: "Client");
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Person");

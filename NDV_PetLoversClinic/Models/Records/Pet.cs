@@ -33,7 +33,7 @@ namespace NDV_PetLoversClinic.Models.Records
 
 
         //Navigation Property
-        public Client Client { get; set; }
+        public Clients Client { get; set; }
 
     }
 }

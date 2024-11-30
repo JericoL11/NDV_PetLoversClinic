@@ -59,7 +59,7 @@ namespace NDV_PetLoversClinic.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Client", b =>
+            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
                 {
                     b.Property<int>("client_Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,7 @@ namespace NDV_PetLoversClinic.Migrations
 
                     b.HasIndex("person_Id");
 
-                    b.ToTable("Client");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Contact", b =>
@@ -144,7 +144,7 @@ namespace NDV_PetLoversClinic.Migrations
                     b.ToTable("Pet");
                 });
 
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Client", b =>
+            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
                 {
                     b.HasOne("NDV_PetLoversClinic.Models.Person", "Person")
                         .WithMany()
@@ -168,7 +168,7 @@ namespace NDV_PetLoversClinic.Migrations
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Pet", b =>
                 {
-                    b.HasOne("NDV_PetLoversClinic.Models.Records.Client", "Client")
+                    b.HasOne("NDV_PetLoversClinic.Models.Records.Clients", "Client")
                         .WithMany("IPet")
                         .HasForeignKey("client_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -182,7 +182,7 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Navigation("IContact");
                 });
 
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Client", b =>
+            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
                 {
                     b.Navigation("IPet");
                 });

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NDV_PetLoversClinic.Models.Records
 {
-    public class Client
+    public class Clients
     {
         [Key]
         public int client_Id { get; set; }

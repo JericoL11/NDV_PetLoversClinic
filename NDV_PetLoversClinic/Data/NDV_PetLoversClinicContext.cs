@@ -15,8 +15,26 @@ namespace NDV_PetLoversClinic.Data
         {
         }
 
+        #region == fluent Api for diable deleting the person ==
+        /* 
+          protected override void OnModelCreating(ModelBuilder modelBuilder)
+          {
+              modelBuilder.Entity<Clients>()
+                  .HasOne(c => c.Person)
+                  .WithMany() // A person can be associated with many clients
+                  .HasForeignKey(c => c.person_Id)
+                  .OnDelete(DeleteBehavior.Restrict);  // Prevent deletion of Person if associated with Client
+          }*/
+        #endregion
+
         public DbSet<Person> Person { get; set; } = default!;
+        public DbSet<Clients> Clients { get; set; } = default!;
         public DbSet<Contact> Contact { get; set; } = default!;
         public DbSet<Pet> Pet { get; set; } = default!;
+
+        internal async Task FindAsync(int client_Id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
