@@ -17,8 +17,7 @@ namespace NDV_PetLoversClinic.Models.Records
 
         //Navigation Property
 
-        public Person Person { get; set; }
-
         public ICollection<Pet> IPet { get; set; } //for one to many
+        public Person? Person { get; set; }
     }
 }

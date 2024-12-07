@@ -1,0 +1,35 @@
+﻿@model NDV_PetLoversClinic.ViewModel.Records.ClientVm
+@{
+    ViewData["Title"] = "View Client";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h1>Client Information</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="form-group col-lg-2 col-sm-6">
+            <label class="control-label"> Full Name</label>
+            <input value="@Model.FullName" class="form-control" readonly />
+        </div>
+
+        <div class="form-group col-lg-2 col-sm-6">
+            <label class="control-label"> Gender</label>
+            <input value="@Model.Person.gender" class="form-control" readonly />
+        </div>
+
+        <div class="form-group col-lg-2 col-sm-6">
+            <label class="control-label"> Age </label>
+            <input value="@Model.Age" class="form-control" readonly />
+        </div>
+
+        <div class="form-group col-lg-2 col-sm-6">
+            <label class="control-label"> Birth Date</label>
+            <input value="@Model.Person.bdate?.ToString("MMM. dd, yyyy")" class="form-control" readonly />
+        </div>
+    </div>
+    
+</div>

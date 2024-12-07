@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NDV_PetLoversClinic.Data;
 
@@ -11,9 +12,11 @@ using NDV_PetLoversClinic.Data;
 namespace NDV_PetLoversClinic.Migrations
 {
     [DbContext(typeof(NDV_PetLoversClinicContext))]
-    partial class NDV_PetLoversClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20241130140553_AlterTable")]
+    partial class AlterTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,9 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("age")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("bdate")
                         .HasColumnType("datetime2");
 
@@ -42,8 +48,8 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("gender")
-                        .HasColumnType("int");
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lname")
                         .HasColumnType("nvarchar(max)");
@@ -74,8 +80,6 @@ namespace NDV_PetLoversClinic.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("client_Id");
-
-                    b.HasIndex("person_Id");
 
                     b.ToTable("Clients");
                 });
@@ -109,6 +113,9 @@ namespace NDV_PetLoversClinic.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("pet_Id"));
 
+                    b.Property<int>("age")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("bdate")
                         .HasColumnType("datetime2");
 
@@ -136,17 +143,6 @@ namespace NDV_PetLoversClinic.Migrations
                     b.HasIndex("client_Id");
 
                     b.ToTable("Pet");
-                });
-
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
-                {
-                    b.HasOne("NDV_PetLoversClinic.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("person_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Contact", b =>

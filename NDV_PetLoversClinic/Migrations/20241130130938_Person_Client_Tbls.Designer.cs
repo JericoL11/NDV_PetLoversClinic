@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NDV_PetLoversClinic.Data;
 
@@ -11,9 +12,11 @@ using NDV_PetLoversClinic.Data;
 namespace NDV_PetLoversClinic.Migrations
 {
     [DbContext(typeof(NDV_PetLoversClinicContext))]
-    partial class NDV_PetLoversClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20241130130938_Person_Client_Tbls")]
+    partial class Person_Client_Tbls
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +36,9 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Property<string>("address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("age")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("bdate")
                         .HasColumnType("datetime2");
 
@@ -42,8 +48,8 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("gender")
-                        .HasColumnType("int");
+                    b.Property<string>("gender")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("lname")
                         .HasColumnType("nvarchar(max)");
@@ -75,7 +81,8 @@ namespace NDV_PetLoversClinic.Migrations
 
                     b.HasKey("client_Id");
 
-                    b.HasIndex("person_Id");
+                    b.HasIndex("person_Id")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
@@ -109,6 +116,9 @@ namespace NDV_PetLoversClinic.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("pet_Id"));
 
+                    b.Property<int>("age")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("bdate")
                         .HasColumnType("datetime2");
 
@@ -141,8 +151,8 @@ namespace NDV_PetLoversClinic.Migrations
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
                 {
                     b.HasOne("NDV_PetLoversClinic.Models.Person", "Person")
-                        .WithMany()
-                        .HasForeignKey("person_Id")
+                        .WithOne("Clients")
+                        .HasForeignKey("NDV_PetLoversClinic.Models.Records.Clients", "person_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -173,6 +183,9 @@ namespace NDV_PetLoversClinic.Migrations
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Person", b =>
                 {
+                    b.Navigation("Clients")
+                        .IsRequired();
+
                     b.Navigation("IContact");
                 });
 

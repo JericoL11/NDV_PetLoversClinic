@@ -1,4 +1,5 @@
-﻿using NDV_PetLoversClinic.Models.Records;
+﻿using NDV_PetLoversClinic.Classes;
+using NDV_PetLoversClinic.Models.Records;
 using System.ComponentModel.DataAnnotations;
 
 namespace NDV_PetLoversClinic.Models
@@ -19,7 +20,7 @@ namespace NDV_PetLoversClinic.Models
         public string? lname { get; set; }
 
         [Display(Name = "Gender")]
-        public string? gender { get; set; }
+        public Gender gender { get; set; }
 
         [Display(Name = "Address")]
         public string ?address { get; set; }
@@ -28,14 +29,13 @@ namespace NDV_PetLoversClinic.Models
         [DataType(DataType.Date)]
         public DateTime? bdate { get; set; }
 
-        [Display(Name = "Age")]
-        public int? age { get; set; }
-
         [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         public string? email { get; set; }
 
         //navigation for contact
         public ICollection<Contact> IContact { get; set; }
+
+
     }
 }

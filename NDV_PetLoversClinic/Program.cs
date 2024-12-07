@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NDV_PetLoversClinic.Data;
 using NDV_PetLoversClinic.Repositories;
+using NDV_PetLoversClinic.Repositories.IRepos;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<NDV_PetLoversClinicContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NDV_PetLoversClinic") ?? throw new InvalidOperationException("Connection string 'NDV_PetLoversClinic' not found.")));
@@ -10,7 +11,7 @@ builder.Services.AddDbContext<NDV_PetLoversClinicContext>(options =>
 builder.Services.AddControllersWithViews();
 
 //repository DI
-builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
 var app = builder.Build();
 
@@ -31,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Client}/{action=Create}/{id?}");
 
 app.Run();

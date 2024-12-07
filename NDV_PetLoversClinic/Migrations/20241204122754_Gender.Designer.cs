@@ -12,8 +12,8 @@ using NDV_PetLoversClinic.Data;
 namespace NDV_PetLoversClinic.Migrations
 {
     [DbContext(typeof(NDV_PetLoversClinicContext))]
-    [Migration("20241129125432_Add_Client_Contact_Pet_Person")]
-    partial class Add_Client_Contact_Pet_Person
+    [Migration("20241204122754_Gender")]
+    partial class Gender
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,8 +48,8 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Property<string>("fname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("gender")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("lname")
                         .HasColumnType("nvarchar(max)");

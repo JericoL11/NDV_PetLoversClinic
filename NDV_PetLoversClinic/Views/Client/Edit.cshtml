@@ -1,0 +1,74 @@
+﻿@model NDV_PetLoversClinic.ViewModel.Records.ClientVm
+@{
+    ViewData["Title"] = "Edit Client";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 pt-2">
+    <div class="container">
+        <h1>Edit Client</h1>
+    </div>
+</div>
+
+
+<div class="container">
+    <form method="post" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.fname" class="control-label"></label>
+                <input asp-for="Person.fname" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.mname" class="control-label"></label>
+                <input asp-for="Person.mname" class="form-control" placeholder="(Optional)" />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.lname" class="control-label"></label>
+                <input asp-for="Person.lname" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.gender" class="control-label"></label>
+                <select name="Gender" class="form-control" required>
+                    <option value="" selected hidden>-Select-</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.address" class="control-label"></label>
+                <input asp-for="Person.address" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.bdate" class="control-label"></label>
+                <input asp-for="Person.bdate" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="Person.email" class="control-label"></label>
+                <input asp-for="Person.email" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label class="control-label">Contact No.</label>
+                <div class="contact" id="contactContainer">
+                    <!-- Default contact input field with name 'contactNo' -->
+                    <div class="contact-item position-relative">
+                        <input type="text" class="form-control" name="IContact[0].contactNo" placeholder="Enter contact number" />
+
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary" id="addContact">Add Contact</button>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+
+    </form>
+</div>

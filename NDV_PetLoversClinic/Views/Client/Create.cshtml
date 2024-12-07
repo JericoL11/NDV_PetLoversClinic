@@ -11,9 +11,104 @@
 
 <div class="container">
     <form method="post" asp-action="Create">
-        <div class="form-group">
-            <label asp-for="fname" class="control-label"></label>
-            <input type=""/>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="fname" class="control-label" ></label>
+                <input asp-for="fname" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="mname" class="control-label"></label>
+                <input asp-for="mname" class="form-control" placeholder="(Optional)"/>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="lname" class="control-label"></label>
+                <input asp-for="lname" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="gender" class="control-label"></label>
+                <select name="Gender" class="form-control" asp-items="ViewBag.GenderOptions" required>
+                    <option value="" selected hidden>-Select-</option>
+                </select>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="address" class="control-label"></label>
+                <input asp-for="address" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="bdate" class="control-label"></label>
+                <input asp-for="bdate" class="form-control birthdate" required />
+            </div>
+
+             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label asp-for="email" class="control-label"></label>
+                <input asp-for="email" class="form-control" required />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-12 form-group">
+                <label class="control-label">Contact No.</label>
+                    <div class="contact" id="contactContainer">
+                        <!-- Flexbox container to align input and button -->
+                        <div class="d-flex align-items-center">
+                            <!-- Input field -->
+                            <div class="contact-item flex-grow-1">
+                                <input type="text" class="form-control" name="IContact[0].contactNo" placeholder="Enter contact number" required />
+                            </div>
+                            <!-- Button on the right side -->
+                            <button type="button" class="btn btn-outline-primary border-0" id="addContact">
+                                <i class="bi bi-plus-circle-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+
+        <!--PET-->  
+        <table class="table mt-5" id="PetTable">
+            <thead>
+                <tr class="bg-primary">
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Breed</th>
+                    <th>Birth Date</th>
+                    <th>Specie</th>
+                    <th><button type="button" class="btn btn-success btn-sm" id="addRow">Add Row</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="detailRow">
+                    <td><input type="text" name="Pet[0].name" class="form-control" required /></td>
+                    <td>
+                        <select name="Pet[0].gender" asp-items="ViewBag.GenderOptions" class="form-control" required>
+                            <option value="" selected hidden>-Select-</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="Pet[0].breed" required  class="form-control"/></td>
+                    <td><input type="date" name="Pet[0].bdate" required class="form-control birthdate maxDate" /></td>
+                    <td><input type="text" name="Pet[0].specie" required class="form-control" /></td>
+                    <td>
+                        <button type="button" class="btn btn-outline-danger border-0 removeRow">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+            <div class="form-group d-flex justify-content-end">
+                <a asp-action="Index" class="btn btn-secondary me-2">Cancel</a>
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
         </div>
-    </form>
+     </form>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

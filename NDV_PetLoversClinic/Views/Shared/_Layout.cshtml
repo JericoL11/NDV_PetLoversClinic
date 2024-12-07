@@ -7,30 +7,52 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/NDV_PetLoversClinic.styles.css" asp-append-version="true" />
+
+    <!--Custom-->
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/custom/Datatables/datatables.min.css" rel="stylesheet"/>
+    <link href="~/custom/bootstrap-icons.css/bootstrap-icons-1.11.3" rel="stylesheet" />
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NDV_PetLoversClinic</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
+            <div class="container-fluid ">
+                <a class="navbar-brand  text-white " asp-area="" asp-controller="Home" asp-action="Index">NDV_PetLoversClinic</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 text-white  ">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Records
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" asp-area="Records" asp-controller="Client" asp-action="Index">Client</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -44,6 +66,28 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--custom-->
+    <script src="~/custom/Datatables/datatables.min.js"></script>
+    <!--end-->
     @await RenderSectionAsync("Scripts", required: false)
+
+
+    @* dataTables Function *@
+    <script>
+
+        $.extend($.fn.dataTable.defaults, {
+            paging: true,
+            scrollY: 400,
+            responsive: true,
+            searching: false,  // Global search enabled by default
+            ordering: true,
+            order: [[0, 'desc']],
+            autoWidth: true,
+            stateSave: false,
+            pageLength: 10,
+        });
+
+    </script>
+
 </body>
 </html>

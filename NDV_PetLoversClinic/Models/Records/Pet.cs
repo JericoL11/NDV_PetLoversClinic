@@ -25,8 +25,6 @@ namespace NDV_PetLoversClinic.Models.Records
         [DataType(DataType.Date)]
         public DateTime bdate { get; set; }
 
-        [Display(Name = "Age")]
-        public int age { get; set; }
 
         [Display(Name = "Specie")]
         public string specie { get; set; }

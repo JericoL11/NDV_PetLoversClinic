@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NDV_PetLoversClinic.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_Client_Contact_Pet_Person : Migration
+    public partial class Person_Client_Tbls : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -100,7 +100,8 @@ namespace NDV_PetLoversClinic.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Clients_person_Id",
                 table: "Clients",
-                column: "person_Id");
+                column: "person_Id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Contact_person_Id",

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NDV_PetLoversClinic.Data;
 
@@ -11,9 +12,11 @@ using NDV_PetLoversClinic.Data;
 namespace NDV_PetLoversClinic.Migrations
 {
     [DbContext(typeof(NDV_PetLoversClinicContext))]
-    partial class NDV_PetLoversClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20241207064912_RemoveAge")]
+    partial class RemoveAge
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
