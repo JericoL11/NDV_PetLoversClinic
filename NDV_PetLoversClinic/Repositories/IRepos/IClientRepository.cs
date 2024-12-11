@@ -14,5 +14,10 @@ namespace NDV_PetLoversClinic.Repositories.IRepos
         Task<(bool Result, Person ExistingPerson)> CheckClient(Person person);
         Task<Person> AddClientAsync(Person person, IList<Pet> pets);
         Task <int> GetAge(DateTime? bdate);
+
+        Task<IEnumerable<Specie>> GetAllSpecieAsync();
+        Task<IEnumerable<Breed>> GetAllBreedAsync(int id);
+
+
     }
 }

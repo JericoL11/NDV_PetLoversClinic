@@ -31,3 +31,7 @@ thead tr {
     color: white;
     text-align: center; /* Centers text in the cells */
 }
+
+td{
+    text-align:center;
+}

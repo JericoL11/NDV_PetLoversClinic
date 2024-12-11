@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NDV_PetLoversClinic.Data;
 
@@ -11,9 +12,11 @@ using NDV_PetLoversClinic.Data;
 namespace NDV_PetLoversClinic.Migrations
 {
     [DbContext(typeof(NDV_PetLoversClinicContext))]
-    partial class NDV_PetLoversClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20241211094654_PetGenderSpecie")]
+    partial class PetGenderSpecie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,28 +57,6 @@ namespace NDV_PetLoversClinic.Migrations
                     b.HasKey("person_Id");
 
                     b.ToTable("Person");
-                });
-
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Breed", b =>
-                {
-                    b.Property<int>("breed_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("breed_Id"));
-
-                    b.Property<string>("breed_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("specie_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("breed_Id");
-
-                    b.HasIndex("specie_Id");
-
-                    b.ToTable("Breeds");
                 });
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
@@ -134,8 +115,9 @@ namespace NDV_PetLoversClinic.Migrations
                     b.Property<DateTime>("bdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("breed_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("breed")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("client_Id")
                         .HasColumnType("int");
@@ -151,41 +133,14 @@ namespace NDV_PetLoversClinic.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("pet_Id");
+                    b.Property<int>("specie")
+                        .HasColumnType("int");
 
-                    b.HasIndex("breed_Id");
+                    b.HasKey("pet_Id");
 
                     b.HasIndex("client_Id");
 
                     b.ToTable("Pet");
-                });
-
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Specie", b =>
-                {
-                    b.Property<int>("specie_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("specie_Id"));
-
-                    b.Property<string>("specie_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("specie_Id");
-
-                    b.ToTable("Species");
-                });
-
-            modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Breed", b =>
-                {
-                    b.HasOne("NDV_PetLoversClinic.Models.Records.Specie", "Specie")
-                        .WithMany()
-                        .HasForeignKey("specie_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Specie");
                 });
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Clients", b =>
@@ -212,17 +167,11 @@ namespace NDV_PetLoversClinic.Migrations
 
             modelBuilder.Entity("NDV_PetLoversClinic.Models.Records.Pet", b =>
                 {
-                    b.HasOne("NDV_PetLoversClinic.Models.Records.Breed", "Breed")
-                        .WithMany()
-                        .HasForeignKey("breed_Id");
-
                     b.HasOne("NDV_PetLoversClinic.Models.Records.Clients", "Client")
                         .WithMany("IPet")
                         .HasForeignKey("client_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Breed");
 
                     b.Navigation("Client");
                 });

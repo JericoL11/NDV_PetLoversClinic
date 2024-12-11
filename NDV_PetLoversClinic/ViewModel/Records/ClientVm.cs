@@ -1,6 +1,7 @@
 ﻿using NDV_PetLoversClinic.Models;
 using NDV_PetLoversClinic.Models.Records;
 using NDV_PetLoversClinic.Classes;
+using System.ComponentModel.DataAnnotations;
 
 namespace NDV_PetLoversClinic.ViewModel.Records
 {
@@ -9,7 +10,8 @@ namespace NDV_PetLoversClinic.ViewModel.Records
         public IEnumerable<ClientDto> IEClients { get; set; }
         public Person Person { get; set; }
         public Clients Clients { get; set; }
-
+       
+        public string? Contact { get; set; }
         public string FullName { get; set; }
         public string? searchTerm { get; set; }
         public bool? isFiltered {  get; set; }

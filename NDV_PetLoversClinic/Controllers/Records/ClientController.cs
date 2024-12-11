@@ -11,10 +11,12 @@ namespace NDV_PetLoversClinic.Controllers.Records
     public class ClientController : Controller
     {
         private readonly IClientRepository _clientRepository;
+        private readonly ISpecieRepository _specieRepository;
 
-        public ClientController(IClientRepository clientRepository)
+        public ClientController(IClientRepository clientRepository, ISpecieRepository specieRepository)
         {
             _clientRepository = clientRepository;
+            _specieRepository = specieRepository;
         }
 
         [HttpGet]
@@ -45,11 +47,26 @@ namespace NDV_PetLoversClinic.Controllers.Records
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Create()
+        //FUNCTION 
+        public async Task CustomViewBags()
         {
             //gender
             ViewBag.GenderOptions = new SelectList(Enum.GetValues(typeof(Gender)));
+
+            //Specie
+            ViewBag.SpecieOptions = (await _specieRepository.GetAllSpecies())?
+             .Select(s => new SelectListItem
+             {
+                 Value = s.specie_Id.ToString(), // The value sent to the server
+                 Text = s.specie_Name                // The text shown to the user
+             });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            await CustomViewBags();
+
             return View();
         }
 
@@ -57,9 +74,7 @@ namespace NDV_PetLoversClinic.Controllers.Records
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(List<Pet> Pet, Person persons)
         {
-            //after "," is the selected  gender
-            ViewBag.GenderOptions = new SelectList(Enum.GetValues(typeof(Gender)),persons.gender);
-
+            await CustomViewBags();
 
             // Call the repository method
             var repo = await _clientRepository.CheckClient(persons);
@@ -84,13 +99,15 @@ namespace NDV_PetLoversClinic.Controllers.Records
                 //get age
                 var getAge =  await _clientRepository.GetAge(getClient.bdate.Value);
 
-                return View(new ClientVm
+                var vm = new ClientVm
                 {
                     Person = getClient,
                     FullName = $"{getClient.fname} {getClient.mname} {getClient.lname}",
-                    Age = getAge
+                    Age = getAge,
+                    Contact = string.Join(", ", getClient.IContact.Select(s => s.contactNo))
+                };
 
-                });
+                return View(vm);
             }
             return NotFound();
         }

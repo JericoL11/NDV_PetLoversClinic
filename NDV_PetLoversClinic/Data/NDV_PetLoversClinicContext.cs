@@ -32,9 +32,9 @@ namespace NDV_PetLoversClinic.Data
         public DbSet<Contact> Contact { get; set; } = default!;
         public DbSet<Pet> Pet { get; set; } = default!;
 
-        internal async Task FindAsync(int client_Id)
-        {
-            throw new NotImplementedException();
-        }
+        public DbSet<Breed> Breeds { get; set; } = default!; 
+        public DbSet<Specie> Species { get; set; } = default!;
+
+      
     }
 }

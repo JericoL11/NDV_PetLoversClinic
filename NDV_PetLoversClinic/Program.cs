@@ -12,6 +12,7 @@ builder.Services.AddControllersWithViews();
 
 //repository DI
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<ISpecieRepository, SpecieRepository>();
 
 var app = builder.Build();
 

@@ -73,9 +73,10 @@
                 <tr class="bg-primary">
                     <th>Name</th>
                     <th>Gender</th>
-                    <th>Breed</th>
-                    <th>Birth Date</th>
                     <th>Specie</th>
+                    <th>Birth Date</th>
+                    <th>Breed</th>
+                     <th>Color</th>
                     <th><button type="button" class="btn btn-success btn-sm" id="addRow">Add Row</button></th>
                 </tr>
             </thead>
@@ -87,9 +88,16 @@
                             <option value="" selected hidden>-Select-</option>
                         </select>
                     </td>
-                    <td><input type="text" name="Pet[0].breed" required  class="form-control"/></td>
+                     <td>
+                        <Select name="Pet[0].specie" asp-items="@ViewBag.SpecieOptions" class="form-control" required>
+                            <option value="" selected hidden>-Select-</option>
+                        </Select>
+                    </td>
                     <td><input type="date" name="Pet[0].bdate" required class="form-control birthdate maxDate" /></td>
-                    <td><input type="text" name="Pet[0].specie" required class="form-control" /></td>
+                   
+                    <td><input type="text" name="Pet[0].color" required class="form-control" /></td>
+                    <td><input type="text" name="Pet[0].breed" required class="form-control" /></td>
+
                     <td>
                         <button type="button" class="btn btn-outline-danger border-0 removeRow">
                             <i class="bi bi-trash-fill"></i>

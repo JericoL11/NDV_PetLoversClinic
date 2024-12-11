@@ -47,7 +47,7 @@ namespace NDV_PetLoversClinic.Repositories
 
         public async Task<Person> GetClientAsync(int id)
         {
-            var client = await _context.Person.FirstOrDefaultAsync(p => p.person_Id == id);
+            var client = await _context.Person.Include(p => p.IContact).FirstOrDefaultAsync(p => p.person_Id == id);
 
             if (client != null)
             {
@@ -116,7 +116,7 @@ namespace NDV_PetLoversClinic.Repositories
         }
 
 
-        //function
+        //functions
 
         public async Task<int> GetAge(DateTime? bdate)
         {
@@ -131,12 +131,29 @@ namespace NDV_PetLoversClinic.Repositories
             int age = today.Year - birthDate.Year;
 
             // Adjust if the birthdate hasn't occurred yet this year
-            if (birthDate.Date > today.AddYears(-age))
+          /*  if (birthDate.Date > today.AddYears(-age))
             {
                 age--;
             }
-
+*/
             return age;
         }
+
+        public async Task<IEnumerable<Specie>> GetAllSpecieAsync()
+        {
+            // Retrieve all species from the database
+            var allSpecies = await _context.Species.ToListAsync();
+
+            // Return the result (empty list if no records found)
+            return allSpecies;
+        }
+
+        public async Task<IEnumerable<Breed>> GetAllBreedAsync(int id)
+        {
+            var allBreeds = await _context.Breeds.Where(b => b.specie_Id == id).ToListAsync();
+
+            return allBreeds;
+        }
+
     }
 }

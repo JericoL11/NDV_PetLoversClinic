@@ -1,0 +1,38 @@
+﻿@model IEnumerable<NDV_PetLoversClinic.Models.Records.Specie>
+@{
+    ViewData["Title"] = "Index (Specie)";
+}
+
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h1>Specie List</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="my-3">
+        <a asp-action="Create" class="btn btn-primary "><i class="bi bi-plus-lg"></i> Add Specie</a>
+
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr class="bg-primary">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+               <tr>
+                   <td>@item.specie_Id</td>
+                    <td>@item.specie_Name</td>
+                    <td><a asp-action="Edit" class="btn btn-sm btn-primary">Edit</a></td>
+               </tr> 
+            }
+        </tbody>
+    </table>
+</div>
