@@ -1,0 +1,59 @@
+﻿@model NDV_PetLoversClinic.ViewModel.Records.SpecieVM
+@{
+    ViewData["Title"] = "Create Breed";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+     <div class="container">
+          <h1>Create New Breed</h1>
+     </div>
+</div>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <form method="post" asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <div class="form-floating mb-3">
+                                <select name="specie_Id" id="Breeds.specie_Id" asp-items="@Model.SpecieList" class="form-control" required>
+                                    <option value="" hidden selected>-- Select --</option>
+                                </select>
+                                <label for="Breeds.specie_Id" class="control-label"><span> * </span> Specie Id</label>
+                            </div>
+                        </div>
+
+                        <div class=" card-header px-4 d-flex justify-content-between">
+                            <div class="fw-bold">Breed</div>
+                            <button type="button" id="addBreedRow" class="btn btn-sm btn-outline-primary ">Add Breed</button>
+                        </div>
+
+                        <div class="card-body">
+                            <div id="breedRow">
+                                <div class="form-group d-flex align-items-center mb-2">
+                                    <div class="form-floating mb-2 flex-grow-1">
+                                        <input class="form-control" id="Breeds[0]" name="Breeds[0].breed_Name" placeholder="Breed Name" required />
+                                        <label class="text-secondary" for="Breeds[0]"><span> * </span>Breed Name</label>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger border-0 removeRow ms-2">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="my-3">
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                            <input type="submit" class="btn btn-primary" value="Create" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

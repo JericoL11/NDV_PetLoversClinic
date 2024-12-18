@@ -58,7 +58,7 @@ namespace NDV_PetLoversClinic.Repositories
 
         }
 
-        public async Task<(bool Result, Person ExistingPerson)> CheckClient(Person person)
+        public async Task<bool> IsClientExist(Person person)
         {
             // Check if person already exists
             var existingPerson = await _context.Person.FirstOrDefaultAsync(
@@ -68,13 +68,13 @@ namespace NDV_PetLoversClinic.Repositories
                     p.lname == person.lname
             );
 
-            if (existingPerson != null)
+            if (existingPerson == null)
             {
                 // Return the existing person to indicate it was already present
-                return (false, existingPerson);
+                return true;
             }
 
-            return (true, null);
+            return false;
         }
 
         public async Task<Person> AddClientAsync(Person person, IList<Pet> pets)

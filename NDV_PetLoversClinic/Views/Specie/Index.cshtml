@@ -6,20 +6,20 @@
 
 <div class="bg-secondary bg-opacity-10 mb-3 py-2">
     <div class="container">
-        <h1>Specie List</h1>
+        <h1>Animal Specie's List</h1>
     </div>
 </div>
 
 <div class="container">
-    <div class="my-3">
-        <a asp-action="Create" class="btn btn-primary "><i class="bi bi-plus-lg"></i> Add Specie</a>
-
+    <div class="d-flex justify-content-between my-3">
+        <a asp-action="Create" class="btn btn-primary "><i class="bi bi-plus-lg"> </i> New Specie</a>
+        <a href="@Url.Action("Index", "Breed")" class="btn btn-primary"><i class="bi bi-list"></i> Breed List</a>
     </div>
 
     <table class="table">
         <thead>
-            <tr class="bg-primary">
-                <th>Id</th>
+            <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Action</th>
             </tr>
@@ -30,7 +30,13 @@
                <tr>
                    <td>@item.specie_Id</td>
                     <td>@item.specie_Name</td>
-                    <td><a asp-action="Edit" class="btn btn-sm btn-primary">Edit</a></td>
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.specie_Id" class="btn btn-outline-primary border-0" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                            <a title="Details" asp-action="Details" asp-route-id="@item.specie_Id" class="btn btn-outline-primary border-0"><i class="bi bi-card-list"></i></a>
+                        </div>
+                       
+                    </td>
                </tr> 
             }
         </tbody>

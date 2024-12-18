@@ -1,0 +1,43 @@
+﻿@model NDV_PetLoversClinic.ViewModel.Records.SpecieVM
+@{
+    ViewData["Title"] = "Details - Specie";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h1>Details</h1>
+    </div>
+</div>
+
+<div class="container">
+    <a class="btn btn-primary mb-3" href="@Url.Action("Index")">Back to List</a>
+    <div class="card">
+        <div class="card-header fw-bold">
+            Specie Name : @Model.Specie.specie_Name
+        </div>
+
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Breed ID</th>
+                        <th>Breed Names</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in Model.Specie.Breeds)
+                    {
+                        <tr>
+                            <td>@item.breed_Id</td>
+                            <td>@item.breed_Name</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.specie_Id" class="btn btn-outline-primary border-0" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

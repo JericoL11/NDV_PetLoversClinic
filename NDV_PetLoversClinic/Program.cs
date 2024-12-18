@@ -13,6 +13,7 @@ builder.Services.AddControllersWithViews();
 //repository DI
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<ISpecieRepository, SpecieRepository>();
+builder.Services.AddScoped<IBreedRepository, BreedRepository>();
 
 var app = builder.Build();
 
@@ -33,6 +34,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Client}/{action=Create}/{id?}");
+    pattern: "{controller=Breed}/{action=Create}/{id?}");
 
 app.Run();

@@ -14,58 +14,82 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="fname" class="control-label" ></label>
-                <input asp-for="fname" class="form-control" required />
+                <div class="form-floating mb-3">
+                    <input asp-for="fname" class="form-control" placeholder="" required />
+                    <label asp-for="fname" class="control-label"><span class="text-danger fw-bold"> * </span> First Name </label>
+                </div>
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="mname" class="control-label"></label>
-                <input asp-for="mname" class="form-control" placeholder="(Optional)"/>
+                <div class="form-floating mb-3">
+                    <input asp-for="mname" class="form-control" placeholder="" required />
+                    <label asp-for="mname"  class="control-label"> Middle Name </label>
+                </div>
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="lname" class="control-label"></label>
-                <input asp-for="lname" class="form-control" required />
+                <div class="form-floating mb-3">
+                    <input asp-for="lname" class="form-control" placeholder="" required />
+                    <label asp-for="lname"  class="control-label"><span> * </span> Last Name </label>
+                </div>
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="gender" class="control-label"></label>
-                <select name="Gender" class="form-control" asp-items="ViewBag.GenderOptions" required>
-                    <option value="" selected hidden>-Select-</option>
-                </select>
+                <div class="form-floating mb-3">
+                    <select name="Gender" id="Gender" class="form-control" asp-items="ViewBag.GenderOptions" required>
+                        <option value="" selected hidden>-Select-</option>
+                    </select>
+                    <label for="Gender" class="control-label"><span> * </span>Gender</label>
+                </div>
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="address" class="control-label"></label>
-                <input asp-for="address" class="form-control" required />
+                <div class="form-floating mb-3">
+                    <input asp-for="address"  class="form-control" placeholder="" required />
+                    <label asp-for="address" class="control-label"><span> * </span>Home Address</label>
+                </div>
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="bdate" class="control-label"></label>
-                <input asp-for="bdate" class="form-control birthdate" required />
+                <div class="form-floating mb-3">
+                    <input asp-for="bdate" id="bdate" class="form-control birthdate" required />
+                    <label for="bdate" class="control-label"><span> * </span>  Birth Date</label>
+                </div>
+             
+            
             </div>
 
              <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label asp-for="email" class="control-label"></label>
-                <input asp-for="email" class="form-control" required />
+                 <div class="form-floating mb-3">
+                    <input asp-for="email" class="form-control" placeholder="" required />
+                    <label asp-for="email" class="control-label"><span> * </span> Email</label> </label>
+                 </div>
+               
             </div>
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
-                <label class="control-label">Contact No.</label>
-                    <div class="contact" id="contactContainer">
-                        <!-- Flexbox container to align input and button -->
-                        <div class="d-flex align-items-center">
-                            <!-- Input field -->
-                            <div class="contact-item flex-grow-1">
-                                <input type="text" class="form-control" name="IContact[0].contactNo" placeholder="Enter contact number" required />
-                            </div>
-                            <!-- Button on the right side -->
-                            <button type="button" class="btn btn-outline-primary border-0" id="addContact">
-                                <i class="bi bi-plus-circle-fill"></i>
-                            </button>
+                <div class="contact" id="contactContainer">
+                    <!-- Flexbox container to align input and button -->
+                    <div class="d-flex align-items-center">
+                        <!-- Input field with floating label -->
+                        <div class="form-floating flex-grow-1">
+                            <input type="text"
+                                   class="form-control"
+                                   name="IContact[0].contactNo"
+                                   id="contactNo"
+                                   placeholder="Enter contact number"
+                                   maxlength="11"
+                                   required />
+                            <label for="contactNo"><span> * </span>Contact No.</label>
                         </div>
+                        <!-- Button on the right side -->
+                        <button type="button" class="btn btn-outline-primary border-0 ms-2" id="addContact">
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </button>
                     </div>
+                </div>
             </div>
+
 
         <!--PET-->  
         <table class="table mt-5" id="PetTable">
@@ -94,10 +118,13 @@
                         </Select>
                     </td>
                     <td><input type="date" name="Pet[0].bdate" required class="form-control birthdate maxDate" /></td>
-                   
+                     <td>
+                        <select name="Pet[0].breed" class="form-control breedOptions" required>
+                            <option value="" selected hidden>-Select-</option>
+                        </select>
+                    </td>
                     <td><input type="text" name="Pet[0].color" required class="form-control" /></td>
-                    <td><input type="text" name="Pet[0].breed" required class="form-control" /></td>
-
+                  
                     <td>
                         <button type="button" class="btn btn-outline-danger border-0 removeRow">
                             <i class="bi bi-trash-fill"></i>
@@ -119,4 +146,76 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script>
+        $(document).ready(function () {
+            // Function to update the name attributes of the rows
+            function updateRowNames() {
+                $('#PetTable tbody tr').each(function (index) {
+                    $(this).find('input, select').each(function () {
+                        var name = $(this).attr('name');
+                        if (name) {
+                            var newName = name.replace(/\d+/, index);
+                            $(this).attr('name', newName);
+                        }
+                    });
+                });
+            }
+
+            // Add row
+            $('#addRow').click(function () {
+                var rowCount = $('#PetTable tbody tr').length;
+                var newRow = $('.detailRow').first().clone();
+              
+                newRow.find('input, select').each(function () {
+                    var name = $(this).attr('name');
+                    if (name) {
+                        var newName = name.replace(/\d+/, rowCount);
+                        $(this).attr('name', newName);
+                    }
+                    if ($(this).attr('id') !== 'dateInput') {
+                        $(this).val(''); // Clear the value of the input/select except dateInput
+                    }
+                });
+
+                newRow.appendTo($('#PetTable tbody'));
+            });
+
+            // Remove row
+            $(document).on('click', '.removeRow', function () {
+                if ($('#PetTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    updateRowNames(); // Update the name attributes of the remaining rows
+                }
+            });
+
+            // Fetch breeds based on the selected specie
+            $(document).on('change', 'select[name*="[specie]"]', function () {
+                const specieId = $(this).val();
+                const breedSelect = $(this).closest('tr').find('select[name*="[breed]"]');
+
+                if (specieId) {
+                    $.ajax({
+                        url: '/Client/GetBreedsBySpecie',
+                        type: 'GET',
+                        data: { specieId: specieId },
+                        success: function (data) {
+                            console.log(data); // Check the response in the browser console
+                            breedSelect.empty().append('<option value="" selected hidden>-Select-</option>');
+                            $.each(data, function (index, item) {
+                                breedSelect.append(`<option value="${item.value}">${item.text}</option>`);
+                            });
+                        },
+                        error: function () {
+                            alert('Failed to load breeds. Please try again.');
+                        }
+                    });
+                } else {
+                    breedSelect.empty().append('<option value="" selected hidden>-Select-</option>');
+                }
+            });
+
+
+        });
+    </script>
+
 }

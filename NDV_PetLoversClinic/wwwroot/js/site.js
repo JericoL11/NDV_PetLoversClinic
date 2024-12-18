@@ -3,6 +3,57 @@
 
 // Write your JavaScript code
 
+
+
+
+//Breed Row
+$(document).ready(function () {
+    let breedIndex = 1; // Initialize index for new breed rows
+
+    // Add breed row
+    $('#addBreedRow').on('click', function () {
+        const rowCount = $('#breedRow .form-group').length;
+
+        // Allow adding row only if there are less than 5 rows
+        if (rowCount < 5) {
+            const newBreedRow = `
+                            <div class="form-group d-flex align-items-center mb-2">
+                            <div class="form-floating flex-grow-1 mb-2">
+                                <input class="form-control" id="Breed[${breedIndex}]" name="Breeds[${breedIndex}].breed_Name" placeholder="Breed Name" required />
+                                <label class="text-secondary" for="Breed[${breedIndex}]"><span> * </span>Breed Name</label>
+                            </div>
+                               
+                                <button type="button" class="btn btn-outline-danger border-0 removeRow ms-2">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        `;
+            $('#breedRow').append(newBreedRow);
+            breedIndex++; // Increment index for next breed row
+        } else {
+            alert('You can only add up to 5 rows.');
+        }
+    });
+
+    // Remove breed row
+    $('#breedRow').on('click', '.removeRow', function () {
+        const rowCount = $('#breedRow .form-group').length;
+
+        // Allow removal only if there are more than 1 row
+        if (rowCount > 1) {
+            $(this).closest('.form-group').remove();
+
+            // Re-adjust the indexes after removing a row
+            $('#breedRow .form-group').each(function (index) {
+                $(this).find('input').attr('name', `Breeds[${index}].breed_Name`);
+            });
+            breedIndex--; // Decrement index after removing a row
+        } else {
+            alert('At least one breed row must remain.');
+        }
+    });
+});
+
 //for adding new number
 $(document).ready(function () {
     const updateButtonState = () => $('#addContact').prop('disabled', $('.contact input').length >= 2);
@@ -12,9 +63,18 @@ $(document).ready(function () {
             const nextIndex = $('.contact input').length;
             const newInput = $(`
                         <div class="d-flex align-items-center mb-3 mt-2">
-                            <div class="contact-item flex-grow-1">
-                                <input type="text" class="form-control" name="IContact[${nextIndex}].contactNo" placeholder="Enter contact number" required>
-                            </div>
+                         <div class="form-floating flex-grow-1 me-2">
+                            <input 
+                                type="text" 
+                                class="form-control"
+                                name="IContact[${nextIndex}].contactNo" 
+                                id="contactNo" 
+                                maxlength="11"
+                                placeholder="Enter contact number" 
+                                required 
+                            />
+                            <label for="contactNo"><span> * </span>Contact No.</label>
+                        </div>
                             <button type="button" class="btn btn-outline-danger removeContact border-0">
                                 <i class="bi bi-trash"></i>
                             </button>
@@ -39,50 +99,14 @@ $(document).ready(function () {
     updateButtonState();
 });
 
-/*form-add-for-pet*/
+//contact Number
 $(document).ready(function () {
-    // Function to update the name attributes of the rows
-    function updateRowNames() {
-        $('#PetTable tbody tr').each(function (index) {
-            $(this).find('input, select').each(function () {
-                var name = $(this).attr('name');
-                if (name) {
-                    var newName = name.replace(/\d+/, index);
-                    $(this).attr('name', newName);
-                }
-            });
-        });
-    }
-
-    // Add row
-    $('#addRow').click(function () {
-        var rowCount = $('#PetTable tbody tr').length;
-        var newRow = $('.detailRow').first().clone();
-
-        newRow.find('input, select').each(function () {
-            var name = $(this).attr('name');
-            if (name) {
-                var newName = name.replace(/\d+/, rowCount);
-                $(this).attr('name', newName);
-            }
-            if ($(this).attr('id') !== 'dateInput') {
-                $(this).val(''); // Clear the value of the input/select except dateInput
-            }
-        });
-
-        newRow.appendTo($('#PetTable tbody'));
-    });
-
-    // Remove row
-    $(document).on('click', '.removeRow', function () {
-        if ($('#PetTable tbody tr').length > 1) {
-            $(this).closest('tr').remove();
-            updateRowNames(); // Update the name attributes of the remaining rows
-        }
+    // Restrict input to numbers only
+    $(document).on('input', 'input[name^="IContact"]', function () {
+        // Allow only numeric characters
+        this.value = this.value.replace(/[^0-9]/g, '');
     });
 });
-
-
 
 //max date for input type date
 $(document).ready(function () {

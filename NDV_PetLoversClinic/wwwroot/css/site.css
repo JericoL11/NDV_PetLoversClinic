@@ -35,3 +35,15 @@ thead tr {
 td{
     text-align:center;
 }
+label {
+    color:rgb(128, 128, 128);
+}
+
+form span{
+    color:red;
+    font-weight:bold
+}
+table thead tr {
+    background-color: #0d6efd;
+
+}

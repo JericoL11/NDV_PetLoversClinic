@@ -12,11 +12,13 @@ namespace NDV_PetLoversClinic.Controllers.Records
     {
         private readonly IClientRepository _clientRepository;
         private readonly ISpecieRepository _specieRepository;
+        private readonly IBreedRepository _breedRepository;
 
-        public ClientController(IClientRepository clientRepository, ISpecieRepository specieRepository)
+        public ClientController(IClientRepository clientRepository, ISpecieRepository specieRepository, IBreedRepository breedRepository)
         {
             _clientRepository = clientRepository;
             _specieRepository = specieRepository;
+            _breedRepository = breedRepository;
         }
 
         [HttpGet]
@@ -47,6 +49,8 @@ namespace NDV_PetLoversClinic.Controllers.Records
             return View(model);
         }
 
+     
+
         //FUNCTION 
         public async Task CustomViewBags()
         {
@@ -54,13 +58,29 @@ namespace NDV_PetLoversClinic.Controllers.Records
             ViewBag.GenderOptions = new SelectList(Enum.GetValues(typeof(Gender)));
 
             //Specie
-            ViewBag.SpecieOptions = (await _specieRepository.GetAllSpecies())?
+            ViewBag.SpecieOptions = (await _specieRepository.GetAllSpeciesAsync())?
              .Select(s => new SelectListItem
              {
                  Value = s.specie_Id.ToString(), // The value sent to the server
                  Text = s.specie_Name                // The text shown to the user
              });
+
         }
+
+        public async Task<IActionResult> GetBreedsBySpecie(int specieId)
+        {
+            var breeds = await _breedRepository.SelectListBreedsAsync(specieId);
+
+            var breedList = breeds.Select(b => new
+            {
+                value = b.breed_Id.ToString(),
+                text = b.breed_Name
+            }).ToList();
+
+            return Json(breedList);
+        }
+
+
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -77,9 +97,9 @@ namespace NDV_PetLoversClinic.Controllers.Records
             await CustomViewBags();
 
             // Call the repository method
-            var repo = await _clientRepository.CheckClient(persons);
+            var IsClientExist = await _clientRepository.IsClientExist(persons);
 
-            if (!repo.Result)
+            if (IsClientExist)
             {
                 ModelState.AddModelError(string.Empty, "A person with the same name already exists.");
 

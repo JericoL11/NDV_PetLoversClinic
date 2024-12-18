@@ -13,6 +13,7 @@ namespace NDV_PetLoversClinic.Models.Records
         public int person_Id { get; set; }
 
         [Display(Name ="Contact No.")]
+        [MaxLength(11)]
         public string? contactNo { get; set; }
 
         //navigation
