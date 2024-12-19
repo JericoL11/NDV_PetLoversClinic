@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NDV_PetLoversClinic.Data;
-using NDV_PetLoversClinic.Models;
+using NDV_PetLoversClinic.Classes;
 using NDV_PetLoversClinic.Models.Records;
 using NDV_PetLoversClinic.Repositories.IRepos;
 using System.Data;
@@ -39,23 +39,14 @@ namespace NDV_PetLoversClinic.Repositories
             return false;
         }
 
-        public async Task<(bool NotFound, bool DuplicateName)> UpdateSpecieAsync(Specie species)
+        public async Task<Specie> UpdateSpecieAsync(Specie species)
         {
             // Find the specie by ID
             var findSpecie = await _context.Species.FindAsync(species.specie_Id);
 
             if (findSpecie == null)
             {
-                return (true, false); // Not Found
-            }
-
-            // Check for duplicate name
-            var duplicateNameExists = await _context.Species
-                .AnyAsync(s => s.specie_Name == species.specie_Name && s.specie_Id != species.specie_Id);
-
-            if (duplicateNameExists)
-            {
-                return (false, true); // Duplicate Name Exists
+                return null;
             }
 
             // Update properties
@@ -64,11 +55,11 @@ namespace NDV_PetLoversClinic.Repositories
             try
             {
                 await _context.SaveChangesAsync();
-                return (false, false); // Update Successful
+                return species; // Update Successful
             }
             catch (DbUpdateConcurrencyException)
             {
-                return (true, false); // Record might have been updated/deleted concurrently
+                return null; // Record might have been updated/deleted concurrently
             }
         }
 
@@ -106,6 +97,27 @@ namespace NDV_PetLoversClinic.Repositories
                      Value = s.specie_Id.ToString(),
                      Text = s.specie_Name,
                  }).ToListAsync();
+        }
+
+        public async Task<ValidationResponse> SpecieExist(Specie species)
+        {
+
+            // Check for duplicate name
+            var exist = await _context.Species
+                .AnyAsync(s => s.specie_Name == species.specie_Name && s.specie_Id != species.specie_Id);
+
+            if (exist)
+            {
+                return new ValidationResponse
+                {
+                    Result = true,
+                    Message = $"Specie Name \"{species.specie_Name}\" is already exist"
+                }; // Duplicate Name Exists
+
+            }
+
+            return new ValidationResponse { Result = false };
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NDV_PetLoversClinic.Classes;
 using NDV_PetLoversClinic.Models.Records;
 
 namespace NDV_PetLoversClinic.Repositories.IRepos
@@ -12,12 +13,11 @@ namespace NDV_PetLoversClinic.Repositories.IRepos
 
         Task<Specie>? GetSpecieWithBreedAsync(int id);
 
-        Task<(bool NotFound, bool DuplicateName)> UpdateSpecieAsync(Specie species);
+        Task<Specie> UpdateSpecieAsync(Specie species);
 
         Task<List<SelectListItem>?> GetSpecieSelectList();
 
-   
-
+        Task<ValidationResponse> SpecieExist(Specie species);
 
     }
 }

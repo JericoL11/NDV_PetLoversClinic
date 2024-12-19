@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NDV_PetLoversClinic.Data;
 using NDV_PetLoversClinic.Models.Records;
 using NDV_PetLoversClinic.Repositories.IRepos;
 using NDV_PetLoversClinic.ViewModel.Records;
@@ -29,29 +31,31 @@ namespace NDV_PetLoversClinic.Controllers.Records
         public async Task<IActionResult> Create(Specie specie)
         {
 
-            //Check duplicate Breed Names
-            var HashNames = new HashSet<string>();
+            //check if name already exist
+            var exist = await _specieRepository.SpecieExist(specie);
 
-            foreach(var name in specie.Breeds)
+            if (exist.Result)
             {
-               if(!HashNames.Add(name.breed_Name))
-                {
-                    ModelState.AddModelError("", "Duplicate breed name is invalid");
-                    return View();
-                }
-                    
+                ModelState.AddModelError("", exist.Message);
+                return View();
             }
+
+
+            //Check duplicate Breed Name on input based on view
+            var breedNames = specie.Breeds.Select(s => s.breed_Name).ToList();
+
+            // Check if the number of distinct breed names is the same as the total number of breed names
+            if (breedNames.Count != breedNames.Distinct().Count())
+            {
+                ModelState.AddModelError("", "Duplicate breed name is invalid");
+                return View();
+            }
+
 
             //save to DB 
             var result = await _specieRepository.AddSpecieAsync(specie);
 
-            if (result)
-            {
-                ModelState.AddModelError("", $"Specie name \"{specie.specie_Name}\" Already exist");
-                return View(specie);
-            }
-
-
+      
             return RedirectToAction(nameof(Index));
         }
 
@@ -77,19 +81,23 @@ namespace NDV_PetLoversClinic.Controllers.Records
                 return BadRequest("Invalid Specie ID.");
             }
 
+            //exist
+            var exist = await _specieRepository.SpecieExist(species);
+
+            if (exist.Result)
+            {
+                ModelState.AddModelError("", exist.Message);
+                return View();
+            }
+
+            //update
             var result = await _specieRepository.UpdateSpecieAsync(species);
 
-            if (result.NotFound)
+            if (result == null)
             {
-                return NotFound($"Specie with ID {id} not found.");
+                return NotFound();
             }
-
-            if (result.DuplicateName)
-            {
-                ModelState.AddModelError("", $"Specie Name \"{species.specie_Name}\" already exists.");
-                return View(species);
-            }
-
+           
             TempData["SuccessMessage"] = "Specie updated successfully.";
             return RedirectToAction(nameof(Index));
         }
