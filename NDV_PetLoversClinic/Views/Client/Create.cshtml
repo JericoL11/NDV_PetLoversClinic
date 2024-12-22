@@ -22,7 +22,7 @@
 
             <div class="col-lg-3 col-md-6 col-sm-12 form-group">
                 <div class="form-floating mb-3">
-                    <input asp-for="mname" class="form-control" placeholder="" required />
+                    <input asp-for="mname" class="form-control" placeholder="" />
                     <label asp-for="mname"  class="control-label"> Middle Name </label>
                 </div>
             </div>
@@ -105,32 +105,35 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="detailRow">
-                    <td><input type="text" name="Pet[0].name" class="form-control" required /></td>
-                    <td>
-                        <select name="Pet[0].gender" asp-items="ViewBag.GenderOptions" class="form-control" required>
-                            <option value="" selected hidden>-Select-</option>
-                        </select>
-                    </td>
-                     <td>
-                        <Select name="Pet[0].specie" asp-items="@ViewBag.SpecieOptions" class="form-control" required>
-                            <option value="" selected hidden>-Select-</option>
-                        </Select>
-                    </td>
-                    <td><input type="date" name="Pet[0].bdate" required class="form-control birthdate maxDate" /></td>
-                     <td>
-                        <select name="Pet[0].breed" class="form-control breedOptions" required>
-                            <option value="" selected hidden>-Select-</option>
-                        </select>
-                    </td>
-                    <td><input type="text" name="Pet[0].color" required class="form-control" /></td>
-                  
-                    <td>
-                        <button type="button" class="btn btn-outline-danger border-0 removeRow">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                    </td>
-                </tr>
+                    <tr class="detailRow">
+                        <td><input type="text" name="Pet[0].name" class="form-control" required /></td>
+                        <td>
+                            <select name="Pet[0].gender" asp-items="ViewBag.GenderOptions" class="form-control" required>
+                                <option value="" selected hidden>-Select-</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="Pet[0].specie" id="specieSelcted" asp-items="@ViewBag.SpecieOptions" class="form-control" required>
+                                <option value="" selected hidden>-Select-</option>
+                            </select>
+                        </td>
+                        <td><input type="date" name="Pet[0].bdate" required class="form-control birthdate maxDate" /></td>
+                        <td class="col-2">
+                            <!-- Make the breed column larger -->
+                            <select name="Pet[0].breed_id" id="breedselected" class="form-control breedOptions" required>
+                               <option value="" selected hidden>-Select-</option>
+                            </select>
+                        </td>
+                        <td class="col-1">
+                            <!-- Make the color column smaller -->
+                            <input type="text" name="Pet[0].color" required class="form-control colorInput" />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-outline-danger border-0 removeRow">
+                                <i class="bi bi-trash-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
             </tbody>
         </table>
 
@@ -154,7 +157,7 @@
                     $(this).find('input, select').each(function () {
                         var name = $(this).attr('name');
                         if (name) {
-                            var newName = name.replace(/\d+/, index);
+                            var newName = name.replace(/\[\d+\]/, `[${index}]`);
                             $(this).attr('name', newName);
                         }
                     });
@@ -165,16 +168,14 @@
             $('#addRow').click(function () {
                 var rowCount = $('#PetTable tbody tr').length;
                 var newRow = $('.detailRow').first().clone();
-              
+
                 newRow.find('input, select').each(function () {
                     var name = $(this).attr('name');
                     if (name) {
-                        var newName = name.replace(/\d+/, rowCount);
+                        var newName = name.replace(/\[\d+\]/, `[${rowCount}]`);
                         $(this).attr('name', newName);
                     }
-                    if ($(this).attr('id') !== 'dateInput') {
-                        $(this).val(''); // Clear the value of the input/select except dateInput
-                    }
+                    $(this).val(''); // Clear the value of the input/select
                 });
 
                 newRow.appendTo($('#PetTable tbody'));
@@ -189,9 +190,9 @@
             });
 
             // Fetch breeds based on the selected specie
-            $(document).on('change', 'select[name*="[specie]"]', function () {
+            $(document).on('change', 'select[name$=".specie"]', function () {
                 const specieId = $(this).val();
-                const breedSelect = $(this).closest('tr').find('select[name*="[breed]"]');
+                const breedSelect = $(this).closest('tr').find('select[name$=".breed_id"]');
 
                 if (specieId) {
                     $.ajax({
@@ -199,7 +200,6 @@
                         type: 'GET',
                         data: { specieId: specieId },
                         success: function (data) {
-                            console.log(data); // Check the response in the browser console
                             breedSelect.empty().append('<option value="" selected hidden>-Select-</option>');
                             $.each(data, function (index, item) {
                                 breedSelect.append(`<option value="${item.value}">${item.text}</option>`);
@@ -214,8 +214,8 @@
                 }
             });
 
-
+          
         });
-    </script>
 
+        </script>
 }

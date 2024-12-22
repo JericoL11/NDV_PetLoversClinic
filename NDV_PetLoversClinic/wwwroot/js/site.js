@@ -3,10 +3,21 @@
 
 // Write your JavaScript code
 
+//alert Notification
+$(document).ready(function () {
+    var alert = $('#success-alert');
+    if (alert.length) {
+        setTimeout(function () {
+            // Smooth fade-out transition before closing
+            alert.fadeOut(500, function () { // 500ms duration for fade out
+                alert.alert('close');  // Close the alert after fading out
+            });
+        }, 3000); // 5 seconds before fading out
+    }
+});
 
 
-
-//Breed Row
+//Create Breed Row
 $(document).ready(function () {
     let breedIndex = 1; // Initialize index for new breed rows
 

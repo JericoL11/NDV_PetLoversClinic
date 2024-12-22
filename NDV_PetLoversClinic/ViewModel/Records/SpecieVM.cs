@@ -12,6 +12,6 @@ namespace NDV_PetLoversClinic.ViewModel.Records
         public Breed Breed { get; set; }
 
         public int? SelectedSpecieId { get; set; }
-        public List<SelectListItem> SpecieList { get; set; }
+        public IEnumerable<SelectListItem>? SpecieList { get; set; }
     }
 }

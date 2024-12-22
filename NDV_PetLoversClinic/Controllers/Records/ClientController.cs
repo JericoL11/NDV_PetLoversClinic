@@ -67,19 +67,22 @@ namespace NDV_PetLoversClinic.Controllers.Records
 
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetBreedsBySpecie(int specieId)
         {
-            var breeds = await _breedRepository.SelectListBreedsAsync(specieId);
+            var breeds = await _breedRepository.GetBreedsBySpecieAsync(specieId);
 
-            var breedList = breeds.Select(b => new
+            if (breeds == null || !breeds.Any())
             {
-                value = b.breed_Id.ToString(),
-                text = b.breed_Name
-            }).ToList();
+                return Json(new List<SelectListItem>());
+            }
 
-            return Json(breedList);
+            return Json(breeds.Select(b => new
+            {
+                Value = b.breed_Id.ToString(),
+                Text = b.breed_Name
+            }).ToArray());
         }
-
 
 
         [HttpGet]
@@ -94,14 +97,14 @@ namespace NDV_PetLoversClinic.Controllers.Records
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(List<Pet> Pet, Person persons)
         {
-            await CustomViewBags();
+            await CustomViewBags(); 
 
             // Call the repository method
-            var IsClientExist = await _clientRepository.IsClientExist(persons);
+            var exist = await _clientRepository.IsClientExist(persons);
 
-            if (IsClientExist)
+            if (exist.Result)
             {
-                ModelState.AddModelError(string.Empty, "A person with the same name already exists.");
+                ModelState.AddModelError("", exist.Message);
 
                 return View(persons);
             }

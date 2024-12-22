@@ -9,11 +9,28 @@
     </div>
 </div>
 
+<div id="alertPlaceholder">
+    @if (TempData["Notification"] != null)
+    {
+        //bootstrap not for modal
+        <div id="success-alert" class="alert alert-success alert-dismissible fade show text-center" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 50000;">
+            @TempData["Notification"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+</div>
+
 <div class="container">
     <a class="btn btn-primary mb-3" href="@Url.Action("Index")">Back to List</a>
     <div class="card">
-        <div class="card-header fw-bold">
+        <div class="card-header fw-bold d-flex justify-content-between">
             Specie Name : @Model.Specie.specie_Name
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#BreedModal">
+                <i class="bi bi-plus"></i> New Breed
+            </button>
+
         </div>
 
         <div class="card-body">
@@ -32,7 +49,7 @@
                             <td>@item.breed_Id</td>
                             <td>@item.breed_Name</td>
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.specie_Id" class="btn btn-outline-primary border-0" title="Edit"><i class="bi bi-pencil-square"></i></a>
+                                <a asp-action="Edit" asp-controller="Breed" asp-route-id="@item.breed_Id" class="btn btn-outline-primary border-0" title="Edit"><i class="bi bi-pencil-square"></i></a>
                             </td>
                         </tr>
                     }
@@ -41,3 +58,80 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="BreedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Create New Breed</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-action="Create" asp-controller="Breed">
+
+                    <input type="hidden" name="specie_Id" value="@Model.Specie.specie_Id" />
+                    <input type="hidden" name="fromSpecieDetails" value="true" />
+
+                    <div class=" card-header px-4 d-flex justify-content-between">
+                        <div class="fw-bold">Breed</div>
+                        <button type="button" id="addBreedRow" class="btn btn-sm btn-outline-primary ">Add Breed</button>
+                    </div>
+                    <div class="card-body">
+                        <div  id="validation-summary-errors" class="text-danger"></div>
+
+                        <div id="breedRow">
+                            <div class="form-group d-flex align-items-center mb-2">
+                                <div class="form-floating mb-2 flex-grow-1">
+                                    <input class="form-control" id="Breeds[0]" name="Breeds[0].breed_Name" placeholder="Breed Name" required />
+                                    <label class="text-secondary" for="Breeds[0]"><span> * </span>Breed Name</label>
+                                </div>
+                                <button type="button" class="btn btn-outline-danger border-0 removeRow ms-2">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-3">
+                        <button type="button" id="ModalClose" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Create" />
+                    </div>
+                </form>
+            </div>
+          @*   <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div> *@
+        </div>
+    </div>
+</div>
+
+ @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            // Check if TempData contains the modal information
+            var modalToOpen = '@TempData["OpenModal"]';
+            var errorMessage = '@TempData["ErrorMessage"]';
+
+            if (modalToOpen) {
+                // Show the modal
+                $('#BreedModal').modal('show');
+
+                // Display error message if present
+                if (errorMessage) {
+                    $('#validation-summary-errors').html(`${errorMessage}`);
+                }
+            }
+
+            $('#ModalClose').click(function () {
+                var BreedModal = $('#BreedModal');
+
+                // Clear the error messages in the validation-summary-errors div
+                $('#validation-summary-errors').empty();
+            });
+        });
+    </script>
+ }

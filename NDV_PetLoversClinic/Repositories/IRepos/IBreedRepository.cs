@@ -7,13 +7,18 @@ namespace NDV_PetLoversClinic.Repositories.IRepos
     {
         Task<Breed>AddBreedAsync(List<Breed> Breeds);
 
-        //temporary method 
-        Task<IEnumerable<Breed>?> SelectListBreedsAsync(int specieId);
-
         Task<IEnumerable<Breed>?> GetAllAsync();
 
-        Task<ValidationResponse> BreedNameExist(List<Breed>? breedList);
+        //for creation of breed
+        Task<ValidationResponse> BreedNameExistByList(List<Breed>? breedList);
 
+        Task<IEnumerable<Breed>?> GetBreedsBySpecieAsync(int specieId);
+
+        Task<Breed> GetBreedAsync(int specieId);
+        Task <Breed> UpdateAsync(Breed breed);
+
+        //for update
+        Task<ValidationResponse> BreedNameExist(Breed breed);
 
     }
 }

@@ -1,0 +1,40 @@
+﻿@model NDV_PetLoversClinic.Models.Records.Breed
+@{
+    ViewData["Title"] = "Edit Breed";
+}
+
+<div class="bg-secondary bg-opacity-10 mb-3 py-2">
+    <div class="container">
+        <h1>Edit Breed</h1>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header"></div>
+                <div class="card-body">
+                    <form method="post" asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="breed_Id" />
+                        <input type="hidden" asp-for="specie_Id" />
+                        <div class="form-group">
+                            <div class="form-floating mb-3">
+                                <input asp-for="breed_Name" class="form-control" placeholder="" required />
+                                <label asp-for="breed_Name" class="control-label"><span> * </span>Specie Name</label>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <a class="btn btn-secondary" asp-action="Details" asp-controller="Specie" asp-route-id="@Model.specie_Id">Cancel</a>
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -24,19 +24,13 @@ namespace NDV_PetLoversClinic.Repositories
 
             return allSpecie;   
         }
-        public async Task<bool> AddSpecieAsync(Specie species)
+        public async Task<Specie> AddSpecieAsync(Specie species)
         {
-            var checkName = await _context.Species.AnyAsync(s => s.specie_Name == species.specie_Name);
-
-            if (checkName)
-            {
-                return true;
-            }
 
             _context.Species.Add(species);
             await _context.SaveChangesAsync();
 
-            return false;
+            return species; 
         }
 
         public async Task<Specie> UpdateSpecieAsync(Specie species)
@@ -88,17 +82,6 @@ namespace NDV_PetLoversClinic.Repositories
 
             return null;
         }
-
-        public async Task<List<SelectListItem>?> GetSpecieSelectList()
-        {
-            return await _context.Species
-                 .Select(s => new SelectListItem
-                 {
-                     Value = s.specie_Id.ToString(),
-                     Text = s.specie_Name,
-                 }).ToListAsync();
-        }
-
         public async Task<ValidationResponse> SpecieExist(Specie species)
         {
 
@@ -119,5 +102,6 @@ namespace NDV_PetLoversClinic.Repositories
             return new ValidationResponse { Result = false };
 
         }
+
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using NDV_PetLoversClinic.Data;
 using NDV_PetLoversClinic.Models.Records;
 using NDV_PetLoversClinic.Repositories.IRepos;
 using NDV_PetLoversClinic.ViewModel.Records;
@@ -98,7 +96,7 @@ namespace NDV_PetLoversClinic.Controllers.Records
                 return NotFound();
             }
            
-            TempData["SuccessMessage"] = "Specie updated successfully.";
+            TempData["Notification"] = "Successfully Updated";
             return RedirectToAction(nameof(Index));
         }
 

@@ -12,7 +12,7 @@ namespace NDV_PetLoversClinic.Repositories.IRepos
         Task<(bool Result, Person)> UpdateClientAsync(Person person);
         Task<Person> GetClientAsync(int id);
 
-        Task<bool> IsClientExist(Person person);
+        Task<ValidationResponse> IsClientExist(Person person);
         Task<Person> AddClientAsync(Person person, IList<Pet> pets);
         Task <int> GetAge(DateTime? bdate);
 

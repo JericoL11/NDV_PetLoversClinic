@@ -37,7 +37,7 @@ namespace NDV_PetLoversClinic.Repositories
                     ClientId = item.client_Id,
                     FullName = $"{item.Person.fname} {item.Person.mname} {item.Person.lname}",
                     Address = item.Person.address,
-                    Contacts = string.Join(", ", item.Person.IContact.Select(p => p.contactNo))
+                    Contacts = string.Join(" | ", item.Person.IContact.Select(p => p.contactNo))
                 })
                 .ToListAsync();
 
@@ -58,7 +58,7 @@ namespace NDV_PetLoversClinic.Repositories
 
         }
 
-        public async Task<bool> IsClientExist(Person person)
+        public async Task<ValidationResponse> IsClientExist(Person person)
         {
             // Check if person already exists
             var existingPerson = await _context.Person.FirstOrDefaultAsync(
@@ -68,13 +68,13 @@ namespace NDV_PetLoversClinic.Repositories
                     p.lname == person.lname
             );
 
-            if (existingPerson == null)
+            if (existingPerson != null)
             {
                 // Return the existing person to indicate it was already present
-                return true;
+                return new ValidationResponse { Result = true, Message = $"Person Name {person.fname} {person.lname} is already exist"};
             }
 
-            return false;
+            return new ValidationResponse { Result = false };
         }
 
         public async Task<Person> AddClientAsync(Person person, IList<Pet> pets)
